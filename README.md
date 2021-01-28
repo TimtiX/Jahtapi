@@ -28,3 +28,37 @@ Creating a TCP Server is a easy as creating a class instance and passing it a po
            new TCPExample();
         }
     }
+    
+In a similar way it is possible to create HTTP Servers (See warnings below):
+
+    import de.jahtapi.http.HttpClient;
+    import de.jahtapi.http.HttpServer;
+    import de.jahtapi.http.HttpServerListener;
+    
+    public class HttpExample implements HttpServerListener {
+    
+        public HttpExample() {
+		     new HttpServer(8800, this); //Create a Server instance on port 8800
+		 }
+    
+        @Override
+        public void onClientConnect(HttpClient client) {
+            System.out.println("Connect"); //Log that a Client connected
+        }
+    
+        @Override
+        public void onClientDisconnect(HttpClient client) {
+            System.out.println("Disconnect"); //Log that a Client disconnected
+        }
+    
+        @Override
+        public void onClientRequest(HttpClient client, String message) {
+            System.out.println("Input: " + message); //Log the Clients message
+        }
+        
+        public static void main(String[] args) {
+            new HttpExample();
+        }
+    }
+    
+WARNING: The HTTP part of the API is in early development and does not yet work properly. There is also no timeout for Clients yet, so without you explicitly closing them, they will stay active.

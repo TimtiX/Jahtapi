@@ -101,24 +101,4 @@ public final class Server {
 			}
 		}
 	}
-	
-	/**
-	 * This class is a simple extension of a RuntimeException. It is intended to be used when
-	 * the creation of a Server instance fails for an unknown reason.
-	 * 
-	 * @author Timti X
-	 */
-	private static class ServerCreationException extends RuntimeException {
-		
-		private static final long serialVersionUID = 1L;
-		
-		/**
-		 * Creates an exception instance with the given error message.
-		 * 
-		 * @param message String The error message to display.
-		 */
-		private ServerCreationException(String message) {
-			super(message);
-		}
-	}
 }
