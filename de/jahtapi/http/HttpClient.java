@@ -17,7 +17,7 @@ public class HttpClient {
 	private Socket socket;
 	private HttpClientListener listener;
 	private Object threadLock;
-	private StringBuilder inputBuilder;
+	private HttpPacketReader reader;
 
 	/**
 	 * Initializes the Client for a Socket that gets handled and a listener to relay events to.
@@ -33,7 +33,7 @@ public class HttpClient {
 		this.socket = socket;
 		this.listener = listener;
 		threadLock = new Object();
-		inputBuilder = new StringBuilder();
+		reader = new HttpPacketReader();
 	}
 	
 	/**
@@ -73,16 +73,13 @@ public class HttpClient {
 				InputStream inputStream = socket.getInputStream();
 				
 				for(int count = 0; count < maxBytes && inputStream.available() > 0; count++) {
-					char input = (char) inputStream.read();
+					char input = (char) inputStream.read();	
+					reader.input(input);
 					
-					if(input == '\r')
-						continue;
-					
-					if(input == '\n') {
-						inputQueue.add(inputBuilder.toString());
-						inputBuilder = new StringBuilder();
-					} else
-						inputBuilder.append(input);
+					if(reader.isPacketReady()) {
+						inputQueue.add(reader.getPacket().get(0));
+						reader = new HttpPacketReader();
+					}
 				}
 			} catch(Exception exception) {
 				close();
