@@ -66,7 +66,7 @@ public class HttpClient {
 	 * @param maxBytes int The maximum mount of bytes to read.
 	 */
 	public void receive(int maxBytes) {
-		ArrayList<String> inputQueue = new ArrayList<>();
+		ArrayList<HttpPacket> inputQueue = new ArrayList<>();
 		
 		synchronized(threadLock) {
 			try {
@@ -77,7 +77,7 @@ public class HttpClient {
 					reader.input(input);
 					
 					if(reader.isPacketReady()) {
-						inputQueue.add(reader.getPacket().get(0));
+						inputQueue.add(reader.getPacket());
 						reader = new HttpPacketReader();
 					}
 				}

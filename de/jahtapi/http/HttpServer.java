@@ -102,8 +102,7 @@ public class HttpServer {
 					exception.printStackTrace();
 				}
 				
-				if(!client.isClosed())
-					this.server.clients.add(client);
+				this.server.clients.add(client);
 			}
 		}		
 	}
@@ -131,11 +130,11 @@ public class HttpServer {
 		 * Called when a Client has a new incoming request.
 		 * 
 		 * @param client HttpClient The Client the event comes from.
-		 * @param message String The received message.
+		 * @param packet HttpPacket The received packet.
 		 */
 		@Override
-		public void onHttpRequest(HttpClient client, String message) {
-			server.listener.onClientRequest(client, message);
+		public void onHttpRequest(HttpClient client, HttpPacket packet) {
+			server.listener.onClientRequest(client, packet);
 		}		
 	}
 	

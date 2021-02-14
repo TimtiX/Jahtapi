@@ -26,8 +26,6 @@ public class HttpPacketReader {
 	/**
 	 * Input a new char. If a full packet was already read nothing happens.
 	 * 
-	 * !WARNING! Not finished, just reads the header lines.
-	 * 
 	 * @param c char The next char to read.
 	 */
 	public void input(char c) {
@@ -59,11 +57,50 @@ public class HttpPacketReader {
 	}
 	
 	/**
-	 * Returns the packets header fields.
+	 * Returns the new HttpPacket if available. Null is returned otherwise.
 	 * 
-	 * @return ArrayList<String> The packets header fields.
+	 * @return HttpPacket The read HttpPacket or null.
 	 */
-	public ArrayList<String> getPacket() {
-		return lines;
+	public HttpPacket getPacket() {
+		if(lines.size() > 0) {
+			String firstLine = lines.get(0);
+			String[] firstLineSplit = firstLine.split("\\ ");
+			
+			if(firstLine.startsWith("HTTP")) {
+				HttpResponse response = new HttpResponse();
+				
+				if(firstLineSplit.length > 1) {
+					response.setVersion(firstLineSplit[0]);
+					response.setStatus(firstLine.substring("HTTP ".length()));
+				}
+				
+				for(int index = 1; index < lines.size(); index++) {
+					String[] headerLineSplit = lines.get(index).split("\\:\\ ");
+					
+					if(headerLineSplit.length > 1)
+						response.setHeaderField(headerLineSplit[0], headerLineSplit[1]);
+				}
+				
+				return response;
+			} else {
+				HttpRequest request = new HttpRequest();
+				
+				if(firstLineSplit.length == 3) {
+					request.setMethod(firstLineSplit[0]);
+					request.setPath(firstLineSplit[1]);
+					request.setVersion(firstLineSplit[2]);
+				}
+				
+				for(int index = 1; index < lines.size(); index++) {
+					String[] headerLineSplit = lines.get(index).split("\\:\\ ");
+					
+					if(headerLineSplit.length > 1)
+						request.setHeaderField(headerLineSplit[0], headerLineSplit[1]);
+				}
+				
+				return request;
+			}
+		} else
+			return null;
 	}
 }

@@ -27,5 +27,5 @@ public interface HttpServerListener {
 	 * @param client HttpClient The Client calling.
 	 * @param message String The incoming request.
 	 */
-	void onClientRequest(HttpClient client, String message);
+	void onClientRequest(HttpClient client, HttpPacket packet);
 }
