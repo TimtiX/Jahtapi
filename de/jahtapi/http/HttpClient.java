@@ -20,10 +20,10 @@ public class HttpClient {
 	private HttpPacketReader reader;
 
 	/**
-	 * Initializes the Client for a Socket that gets handled and a listener to relay events to.
+	 * Initializes the client for a Socket that gets handled and a listener to relay events to.
 	 * 
 	 * @param socket The Socket connection to handle.
-	 * @param listener The Listener to callback to.
+	 * @param listener The listener to callback to.
 	 * @throws NullPOinterException If a parameter is null.
 	 */
 	public HttpClient(Socket socket, HttpClientListener listener) {
@@ -63,7 +63,7 @@ public class HttpClient {
 	 * Reads a given maximum of bytes of input data sent from the connected device. Data will only
 	 * be read if it is available.
 	 * 
-	 * @param maxBytes int The maximum mount of bytes to read.
+	 * @param maxBytes int The maximum amount of bytes to read.
 	 */
 	public void receive(int maxBytes) {
 		ArrayList<HttpPacket> inputQueue = new ArrayList<>();
@@ -93,14 +93,14 @@ public class HttpClient {
 	}
 	
 	/**
-	 * Invokes the receive() with a default amount of max bytes.
+	 * Invokes the receive() method with a default amount of max bytes.
 	 */
 	public void recieve() {
 		receive(DEFAULT_MAX_BYTES);
 	}
 	
 	/**
-	 * Closes the Client connection.
+	 * Closes the clients connection.
 	 */
 	public void close() {
 		try {
@@ -111,7 +111,7 @@ public class HttpClient {
 	}
 	
 	/**
-	 * Returns if the Client was closed or not.
+	 * Returns if the client was closed or not.
 	 * 
 	 * @return boolean If the client was closed.
 	 */

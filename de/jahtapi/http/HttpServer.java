@@ -8,8 +8,8 @@ import de.jahtapi.network.ServerCreationException;
 import de.jahtapi.network.ServerListener;
 
 /**
- * Represents a HttpServer in the common sense. It accepts and handles Clients and relays incoming
- * traffic to a Listener.
+ * Represents a HttpServer in the common sense. It accepts and handles clients and relays incoming
+ * traffic to a listener.
  * 
  * @author Timti X
  */
@@ -24,12 +24,12 @@ public class HttpServer {
 	private ArrayList<HttpClient> clients;
 	
 	/**
-	 * Initializes the HttpServer for the given port and Listener.
+	 * Initializes the HttpServer for the given port and listener.
 	 * 
 	 * @param port int The port to start on.
-	 * @param listener HttpListener The Listener to callback to.
+	 * @param listener HttpListener The listener to callback to.
 	 * @throws NullPointerException If a parameter is null.
-	 * @throws ServerCreationException If the Server creation fails for unknown reasons.
+	 * @throws ServerCreationException If the creation fails for unknown reasons.
 	 */
 	public HttpServer(int port, HttpServerListener listener) {
 		if(listener == null)
@@ -49,25 +49,25 @@ public class HttpServer {
 	}
 	
 	/**
-	 * Creates the HttpServer on a default port with the given Listener.
+	 * Creates the HttpServer on a default port with the given listener.
 	 * 
-	 * @param listener HttpListene The Listener to callback to.
-	 * @throws NullPointerExcption If the Listener is null.
-	 * @throws ServerCreationException If the Server creation fails for unknown reasons.
+	 * @param listener HttpListene The listener to callback to.
+	 * @throws NullPointerExcption If the listener is null.
+	 * @throws ServerCreationException If the creation fails for unknown reasons.
 	 */
 	public HttpServer(HttpServerListener listener) {
 		this(HTTP_DEFAULT_PORT, listener);
 	}
 
 	/**
-	 * Closes the Server.
+	 * Closes the HttpServer.
 	 */
 	public void close() {
 		server.close();
 	}
 	
 	/**
-	 * The ServerListener to handle the objects TCP Server.
+	 * The ServerListener to handle the internal TCP server.
 	 * 
 	 * @author Timti x
 	 */
@@ -76,20 +76,20 @@ public class HttpServer {
 		private HttpServer server;
 		
 		/**
-		 * Initializes this Listener for then given owner.
+		 * Initializes this listener for then given owner.
 		 * 
-		 * @param server HttpServer The HttpServer this object belongs to.
+		 * @param server HttpServer The HttpServer this listener belongs to.
 		 */
 		private CustomServerListener(HttpServer server) {
 			this.server = server;
 		}
 		
 		/**
-		 * Called by the TCP Server when a Client connects. Creates an HttpClient and relays the
-		 * event to the HttpServers Listener.
+		 * Called by the TCP server when a client connects. Creates an HttpClient and relays the
+		 * event to the HttpServerListener.
 		 * 
 		 * @param server Server The Server this event is coming from.
-		 * @param socket Socket The connection with the Client.
+		 * @param socket Socket The connection with the client.
 		 */
 		@Override
 		public void onClientConnect(Server server, Socket socket) {
@@ -108,8 +108,8 @@ public class HttpServer {
 	}
 	
 	/**
-	 * The ClientListener to listen for Clients input so it can be reayed to the HttpServers 
-	 * Listener.
+	 * The ClientListener to listen for clients input so it can be relayed to the HttpServers 
+	 * listener.
 	 *
 	 * @author Timti X
 	 */
@@ -118,18 +118,18 @@ public class HttpServer {
 		private HttpServer server;
 		
 		/**
-		 * Creates the Listener for the given owner.
+		 * Creates the listener for the given owner.
 		 * 
-		 * @param server HttpServer The Server this Listener belongs to.
+		 * @param server HttpServer The server this listener belongs to.
 		 */
 		private CustomClientListener(HttpServer server) {
 			this.server = server;
 		}
 		
 		/**
-		 * Called when a Client has a new incoming request.
+		 * Called when a client has a new incoming request.
 		 * 
-		 * @param client HttpClient The Client the event comes from.
+		 * @param client HttpClient The client the event comes from.
 		 * @param packet HttpPacket The received packet.
 		 */
 		@Override
@@ -139,7 +139,7 @@ public class HttpServer {
 	}
 	
 	/**
-	 * Handles the new and existing Clients of this HttpServer.
+	 * Handles the new and existing clients of this HttpServer.
 	 * 
 	 * @author Timti X
 	 */
@@ -150,7 +150,7 @@ public class HttpServer {
 		/**
 		 * Creates this Runnable for the given owner.
 		 * 
-		 * @param server HttpServer The Server this Runnable belongs to.
+		 * @param server HttpServer The server this Runnable belongs to.
 		 */
 		private ServerHandleRunnable(HttpServer server) {
 			this.server = server;
@@ -158,8 +158,8 @@ public class HttpServer {
 		
 		/**
 		 * Called by the Thread. It contains the handling code and manages new and disconnected
-		 * Clients. If no Clients exist the routine tries to free processing power. If the Runnable
-		 * ends it will close all Client connections.
+		 * clients. If no clients exist, the routine tries to free processing power. If the
+		 * Runnable ends it will close all client connections.
 		 */
 		@Override
 		public void run() {

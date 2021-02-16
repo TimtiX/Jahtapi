@@ -1,31 +1,31 @@
 package de.jahtapi.http;
 
 /**
- * The ability to Listen for a HttpServers events and to handle them accordingly.
+ * The ability to listen for HttpServer events and to handle them accordingly.
  * 
- * @author Timi X
+ * @author Timti X
  */
 public interface HttpServerListener {
 	
 	/**
-	 * Called when a Client connects.
+	 * Called when a client connects.
 	 * 
-	 * @param client HttpClient The Client that connected.
+	 * @param client HttpClient The client that connected.
 	 */
 	void onClientConnect(HttpClient client);
 	
 	/**
-	 * Called when a Client closed either by themselves or by the Server-
+	 * Called when a client closed either by themselves or by the HttpServer.
 	 * 
-	 * @param client HttpClient The Client that disconnected.
+	 * @param client HttpClient The client that disconnected.
 	 */
 	void onClientDisconnect(HttpClient client);
 	
 	/**
-	 * Called when a Client has new incoming requests.
+	 * Called when a client has new incoming packets.
 	 * 
-	 * @param client HttpClient The Client calling.
-	 * @param message String The incoming request.
+	 * @param client HttpClient The calling client.
+	 * @param packet HttpPacket The incoming packet.
 	 */
 	void onClientRequest(HttpClient client, HttpPacket packet);
 }

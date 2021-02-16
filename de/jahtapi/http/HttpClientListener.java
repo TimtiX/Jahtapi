@@ -8,11 +8,11 @@ package de.jahtapi.http;
 public interface HttpClientListener {
 	
 	/**
-	 * Called by the HttpClient this Listener was assigned to when a complete HTTP Packet was read
+	 * Called by the HttpClient this listener was assigned to when a complete HttpPacket was read
 	 * after or during a receive() procedure.
 	 * 
-	 * @param client HttpClient The Client this event is coming from.
-	 * @param packet HttpPacket The packet that was sent by the Client.
+	 * @param client HttpClient The client this event is coming from.
+	 * @param packet HttpPacket The packet that was sent by the client.
 	 */
 	void onHttpRequest(HttpClient client, HttpPacket packet);
 }

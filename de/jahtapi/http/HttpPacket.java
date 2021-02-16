@@ -22,6 +22,7 @@ public class HttpPacket {
 	
 	/**
 	 * Sets a packet header field. If either the name or value are null nothing happens.
+	 * 
 	 * @param name String The fields name.
 	 * @param value String The fields value.
 	 */
@@ -63,7 +64,7 @@ public class HttpPacket {
 	}
 	
 	/**
-	 * Returns a String representation of this packet. Might not be a complete valid HTTP pacet, as
+	 * Returns a String representation of this packet. Might not be a complete valid HTTP packet, as
 	 * there are no specifications of request/response etc.
 	 * 
 	 * @return String The String representation.

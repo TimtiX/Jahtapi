@@ -4,7 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * This class represents a server in the common sense. It runs on a given port and accepts
+ * This class represents a Server in the common sense. It runs on a given port and accepts
  * incoming connections, which will be handled by a ServerListener.
  * 
  * @author Timti X

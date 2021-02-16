@@ -33,7 +33,7 @@ public class TCPExample implements ServerListener {
 In a similar way it is possible to create HTTP Servers (See warnings below):
 
 ```Java
-mport de.jahtapi.http.HttpClient;
+import de.jahtapi.http.HttpClient;
 import de.jahtapi.http.HttpPacket;
 import de.jahtapi.http.HttpRequest;
 import de.jahtapi.http.HttpResponse;
@@ -41,48 +41,48 @@ import de.jahtapi.http.HttpServer;
 import de.jahtapi.http.HttpServerListener;
 
 public class HttpExample implements HttpServerListener {
-
-	//The response to send to Clients
-	private static final String RESPONSE = ""
-			+ "<!DOCTYPE html>\n"
-			+ "<html>\n"
-			+ "    <head>"
-			+ "        <title>Test Response</title>\n"
-			+ "    </head>\n"
-			+ "    <body>\n"
-			+ "        <p>Hello, this is a test response!</p>\n"
-			+ "    </body>"
-			+ "</html>";
-	
-	public HttpExample() {
-		new HttpServer(8800, this); // Create a Server instance on port 8800
-	}
-
-	@Override
-	public void onClientConnect(HttpClient client) {
-		System.out.println("Connect"); // Log that a Client connected
-	}
-
-	@Override
-	public void onClientDisconnect(HttpClient client) {
-		System.out.println("Disconnect"); // Log that a Client disconnected
-	}
-
-	@Override
-	public void onClientRequest(HttpClient client, HttpPacket packet) {
-		if(packet instanceof HttpRequest) //Log a possible requested path
-			System.out.println("Request: " + ((HttpRequest) packet).getPath());
-
-		HttpResponse response = new HttpResponse();
-		response.setStatus("200 OK");
-		response.setContent(RESPONSE);
-		client.send(response.toString()); //Respond to the incoming traffic
-		client.close(); //Close the Client
-	}
-
-	public static void main(String[] args) {
-		new HttpExample();
-	}
+    
+    //The response to send to Clients
+    private static final String RESPONSE = ""
+            + "<!DOCTYPE html>\n"
+            + "<html>\n"
+            + "    <head>\n"
+            + "        <title>Test Response</title>\n"
+            + "    </head>\n"
+            + "    <body>\n"
+            + "        <p>Hello, this is a test response!</p>\n"
+            + "    </body>"
+            + "</html>";
+    
+    public HttpExample() {
+        new HttpServer(8800, this); // Create a Server instance on port 8800
+    }
+    
+    @Override
+    public void onClientConnect(HttpClient client) {
+        System.out.println("Connect"); // Log that a Client connected
+    }
+    
+    @Override
+    public void onClientDisconnect(HttpClient client) {
+        System.out.println("Disconnect"); // Log that a Client disconnected
+    }
+    
+    @Override
+    public void onClientRequest(HttpClient client, HttpPacket packet) {
+        if(packet instanceof HttpRequest) //Log a possible requested path
+            System.out.println("Request: " + ((HttpRequest) packet).getPath());
+        
+        HttpResponse response = new HttpResponse();
+        response.setStatus("200 OK");
+        response.setContent(RESPONSE);
+        client.send(response.toString()); //Respond to the incoming traffic
+        client.close(); //Close the Client
+    }
+    
+    public static void main(String[] args) {
+        new HttpExample();
+    }
 }
 
 ```

@@ -15,7 +15,7 @@ public class HttpPacketReader {
 	private boolean packetReady;
 	
 	/**
-	 * Initializes the Reader. It may only be used for on packet.
+	 * Initializes the reader. It may only be used for one packet.
 	 */
 	public HttpPacketReader() {
 		lines = new ArrayList<>();
@@ -24,7 +24,7 @@ public class HttpPacketReader {
 	}
 	
 	/**
-	 * Input a new char. If a full packet was already read nothing happens.
+	 * Input a new char. If a full packet was already read, nothing happens.
 	 * 
 	 * @param c char The next char to read.
 	 */

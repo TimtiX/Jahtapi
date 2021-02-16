@@ -1,7 +1,7 @@
 package de.jahtapi.http;
 
 /**
- * An extension of the HttpPacket with request sepcific operations.
+ * An extension of the HttpPacket with request specific operations.
  * 
  * @author Timti X
  */
