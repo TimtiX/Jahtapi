@@ -27,7 +27,8 @@ public enum HttpStatus {
 	 * 
 	 * @return String The String value.
 	 */
-	public String getValue() {
+	@Override
+	public String toString() {
 		return value;
 	}
 }

@@ -196,9 +196,11 @@ public class HttpServer {
 				}
 			}
 			
-			for(HttpClient client : server.clients) {
-				client.close();
-				server.listener.onClientDisconnect(client);
+			synchronized (server.threadLock) {
+				for(HttpClient client : server.clients) {
+					client.close();
+					server.listener.onClientDisconnect(client);
+				}
 			}
 		}
 	}

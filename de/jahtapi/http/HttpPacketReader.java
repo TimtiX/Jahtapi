@@ -41,10 +41,10 @@ public class HttpPacketReader {
 				lineBuilder = new StringBuilder();
 				checkLineFeed = true;
 			}
-		} else
+		} else {
 			checkLineFeed = false;
-			
-		lineBuilder.append(c);
+			lineBuilder.append(c);
+		}		
 	}
 	
 	/**

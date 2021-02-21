@@ -1,12 +1,12 @@
 **Java HTTP API (Jahtapi)**  
 
-A simple to use utility API written in Java. It provides simple Server functionality and (in the future) will have the main purpose of acting as an HTTP server interface. This projects goal should be to make light Java HTTP servers as easy to make as possible.
+A simple to use utility API written in Java. It provides simple server functionality and has the main purpose of acting as an HTTP server interface. This projects goal should be to make light Java HTTP servers as easy to make as possible. The classes might also be used to created HTTP requests. Note that this is in early development and is yet not fully functional, but can already server as a basic framework.
 
 ---
 
 **Usage**  
 
-To use this API simply use a .jar built (or build it yourself) and import that in your project. How to import the .jar file is different from IDE to IDE.
+To use this API simply use a .jar built (or build it yourself) and import that in your project. How to import the .jar file is depending on your IDE.
 
 Creating a TCP Server is a easy as creating a class instance and passing it a port and a listener object. Example:
     
@@ -30,19 +30,14 @@ public class TCPExample implements ServerListener {
     }
 }
 ```
-In a similar way it is possible to create HTTP Servers (See warnings below):
+In a similar way it is possible to create HTTP Servers:
 
 ```Java
-import de.jahtapi.http.HttpClient;
-import de.jahtapi.http.HttpPacket;
-import de.jahtapi.http.HttpRequest;
-import de.jahtapi.http.HttpResponse;
-import de.jahtapi.http.HttpServer;
-import de.jahtapi.http.HttpServerListener;
+import de.jahtapi.http.*;
 
 public class HttpExample implements HttpServerListener {
     
-    //The response to send to Clients
+    //The response to send to clients
     private static final String RESPONSE = ""
             + "<!DOCTYPE html>\n"
             + "<html>\n"
@@ -55,17 +50,17 @@ public class HttpExample implements HttpServerListener {
             + "</html>";
     
     public HttpExample() {
-        new HttpServer(8800, this); // Create a Server instance on port 8800
+        new HttpServer(8800, this); // Create a server instance on port 8800
     }
     
     @Override
     public void onClientConnect(HttpClient client) {
-        System.out.println("Connect"); // Log that a Client connected
+        System.out.println("Connect"); // Log that a client connected
     }
     
     @Override
     public void onClientDisconnect(HttpClient client) {
-        System.out.println("Disconnect"); // Log that a Client disconnected
+        System.out.println("Disconnect"); // Log that a client disconnected
     }
     
     @Override
@@ -74,7 +69,7 @@ public class HttpExample implements HttpServerListener {
             System.out.println("Request: " + ((HttpRequest) packet).getPath());
         
         HttpResponse response = new HttpResponse();
-        response.setStatus("200 OK");
+        response.setStatus(HttpStatus.OK.toString());
         response.setContent(RESPONSE);
         client.send(response.toString()); //Respond to the incoming traffic
         client.close(); //Close the Client
@@ -87,4 +82,4 @@ public class HttpExample implements HttpServerListener {
 
 ```
 
-WARNING: The HTTP part of the API is in early development and does not yet work properly. There is also no timeout for Clients yet, so without you explicitly closing them, they will stay active.
+WARNING: There is no timeout for clients yet, so without you explicitly closing them, they will stay open.

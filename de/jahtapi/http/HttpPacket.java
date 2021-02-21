@@ -40,7 +40,10 @@ public class HttpPacket {
 	public void setContent(String content) {
 		if(content != null) {
 			this.content = content;
-			headerFields.put("Content-Length", "" + content.length());
+			
+			if(content.length() > 0)
+				headerFields.put("Content-Length", "" + content.length());
+			else headerFields.remove("Content-Length");
 		}
 	}
 	
