@@ -168,39 +168,51 @@ public class HttpServer {
 				
 				synchronized(server.threadLock) {
 					ArrayList<HttpClient> closedClients = new ArrayList<>();
+					long currentTime = System.currentTimeMillis();
 					
 					for(HttpClient client : server.clients)
 						if(client.isClosed())
 							closedClients.add(client);
-						else
+						else {
 							client.recieve();
+							
+							if(currentTime - client.getLastDataReadTime() > 4096)
+								client.close();
+						}
 					
 					for(HttpClient client : closedClients) {
-						try {
-							server.listener.onClientDisconnect(client);
-						} catch(Exception exception) {
-							exception.printStackTrace();
-						}
-						
+						safeDisconnectCall(client);
 						server.clients.remove(client);
 					}
 					
 					timeToSleep = 100 - server.clients.size();
 				}
 				
-				try {
-					if(timeToSleep > 0)
-						Thread.sleep(timeToSleep);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				sleep(timeToSleep);
 			}
 			
 			synchronized (server.threadLock) {
 				for(HttpClient client : server.clients) {
 					client.close();
-					server.listener.onClientDisconnect(client);
+					safeDisconnectCall(client);
 				}
+			}
+		}
+		
+		private void safeDisconnectCall(HttpClient client) {
+			try {
+				server.listener.onClientDisconnect(client);
+			} catch(Exception exception) {
+				exception.printStackTrace();
+			}
+		}
+		
+		private static void sleep(long ms) {
+			try {
+				if(ms > 0)
+					Thread.sleep(ms);
+			} catch(InterruptedException exception) {
+				exception.printStackTrace();
 			}
 		}
 	}

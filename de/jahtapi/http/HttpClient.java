@@ -18,6 +18,7 @@ public class HttpClient {
 	private HttpClientListener listener;
 	private Object threadLock;
 	private HttpPacketReader reader;
+	private long lastDataReadTime;
 
 	/**
 	 * Initializes the client for a Socket that gets handled and a listener to relay events to.
@@ -34,6 +35,7 @@ public class HttpClient {
 		this.listener = listener;
 		threadLock = new Object();
 		reader = new HttpPacketReader();
+		lastDataReadTime = System.currentTimeMillis();
 	}
 	
 	/**
@@ -72,7 +74,8 @@ public class HttpClient {
 			try {
 				InputStream inputStream = socket.getInputStream();
 				
-				for(int count = 0; count < maxBytes && inputStream.available() > 0; count++) {
+				int count;
+				for(count = 0; count < maxBytes && inputStream.available() > 0; count++) {
 					char input = (char) inputStream.read();	
 					reader.input(input);
 					
@@ -81,6 +84,9 @@ public class HttpClient {
 						reader = new HttpPacketReader();
 					}
 				}
+				
+				if(count > 0)
+					lastDataReadTime = System.currentTimeMillis();
 			} catch(Exception exception) {
 				close();
 			}
@@ -117,5 +123,14 @@ public class HttpClient {
 	 */
 	public boolean isClosed() {
 		return socket.isClosed();
+	}
+	
+	/**
+	 * Returns the last time that data was read/received. Could be used to determine timeouts.
+	 * 
+	 * @return long The last time data was read.
+	 */
+	public long getLastDataReadTime() {
+		return lastDataReadTime;
 	}
 }
